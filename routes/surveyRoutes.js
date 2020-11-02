@@ -73,8 +73,8 @@ module.exports = (app) => {
     const mailer = new Mailer(survey, surveyTemplate(survey));
 
     try {
-      await mailer.send();  //这个是async，上面的route handler也是async
-      await survey.save();  // 数据库
+      await mailer.send();  // async，the above route handler is also async
+      await survey.save();  // Save to database
       req.user.credits -= 1;
       const user = await req.user.save();
 
