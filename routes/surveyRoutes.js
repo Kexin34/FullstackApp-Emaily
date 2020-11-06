@@ -12,6 +12,7 @@ const Survey = mongoose.model('surveys');
 
 module.exports = (app) => {
 
+  // Return a list of surveys created by the current user
   app.get('/api/surveys', requireLogin, async (req, res) => {
     const surveys = await Survey.find({ _user: req.user.id }).select({
       recipients: false,
@@ -20,11 +21,12 @@ module.exports = (app) => {
     res.send(surveys);
   });
 
-
+  // Return some words for recipient who click the response
   app.get('/api/surveys/:surveyId/:choice', (req, res) => {
     res.send('Thanks for voting!');
   });
 
+  // Record feedback from a user
   app.post('/api/surveys/webhooks', (req, res) => {
     const p = new Path('/api/surveys/:surveyId/:choice'); 
 
@@ -54,7 +56,7 @@ module.exports = (app) => {
     res.send({});
   });
 
-
+  // Create a new survey
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
     const { title, subject, body, recipients } = req.body;
 
@@ -69,7 +71,7 @@ module.exports = (app) => {
       dateSent: Date.now(),
     });
 
-    // Great place to send an email!
+    // Place to send an email!
     const mailer = new Mailer(survey, surveyTemplate(survey));
 
     try {

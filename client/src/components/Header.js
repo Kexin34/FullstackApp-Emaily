@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom';
 import Payments from './Payments';
 
 class Header extends Component {
-
+  //  Render different info depends on if user is logged in
   renderContent() {
     switch (this.props.auth){
-      case null:
+      case null:        
         return;
-      case false:
+      case false:           // User is not logged in
         return (
           <li><a href="/auth/google">Login With Google</a></li>
         );
-      default:
+      default:              // User is logged in, auth contain user model
         return [
           <li key="1"><Payments /></li>,
           <li key="3" style={{ margin: '0 10px'}}>
@@ -47,4 +47,5 @@ function mapStateToProps(state){
   return { auth: state.auth };
 }
 
+// Use react connector to wire up Header component with redux store(authReducer)
 export default connect(mapStateToProps, null)(Header);

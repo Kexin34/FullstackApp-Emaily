@@ -10,6 +10,8 @@ import SurveyNew from './surveys/SurveyNew';
 
 
 class App extends Component {
+
+  // Most of the components need to know if user is logged in
   componentDidMount() {
     this.props.fetchUser();
   }
@@ -30,4 +32,5 @@ class App extends Component {
   }
 }
 
+// Use react connector to wire up App component with action creator
 export default connect(null, actions)(App);
